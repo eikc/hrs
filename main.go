@@ -1,10 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/rickar/cal/v2"
@@ -18,14 +17,13 @@ func main() {
 }
 
 func run() error {
-	yearStr := os.Args[1]
-	year, err := strconv.Atoi(yearStr)
-	if err != nil {
-		return err
-	}
+	year := flag.Int("year", time.Now().Year(), "The year you want to calculate")
+	workingHours := flag.Float64("Working hours pr. day", 7.5, "Configure the daily working hours")
+
+	flag.Parse()
 
 	for i := 1; i <= 12; i++ {
-		hrs, err := calcWorkingHours(year, i)
+		hrs, err := calcWorkingHours(*year, i, *workingHours)
 		if err != nil {
 			return err
 		}
@@ -36,7 +34,7 @@ func run() error {
 	return nil
 }
 
-func calcWorkingHours(year, month int) (float64, error) {
+func calcWorkingHours(year, month int, workingHours float64) (float64, error) {
 	c := cal.NewBusinessCalendar()
 	c.AddHoliday(dk.Holidays...)
 
@@ -48,7 +46,7 @@ func calcWorkingHours(year, month int) (float64, error) {
 
 	days := c.WorkdaysInRange(firstDay, lastDay)
 
-	hrs := float64(days) * 7.5
+	hrs := float64(days) * workingHours
 
 	return hrs, nil
 }
