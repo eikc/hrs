@@ -28,7 +28,7 @@ func run() error {
 			return err
 		}
 
-		fmt.Printf("Total working hours in %d/%d : %f \n", i, *year, hrs)
+		fmt.Printf("Total working hours in %02d/%d: %f \n", i, *year, hrs)
 	}
 
 	return nil
