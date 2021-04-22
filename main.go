@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/rickar/cal/v2"
@@ -16,8 +18,14 @@ func main() {
 }
 
 func run() error {
+	yearStr := os.Args[1]
+	year, err := strconv.Atoi(yearStr)
+	if err != nil {
+		return err
+	}
+
 	for i := 1; i <= 12; i++ {
-		hrs, err := calcWorkingHours(2021, i)
+		hrs, err := calcWorkingHours(year, i)
 		if err != nil {
 			return err
 		}
