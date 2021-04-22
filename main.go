@@ -18,7 +18,7 @@ func main() {
 
 func run() error {
 	year := flag.Int("year", time.Now().Year(), "The year you want to calculate")
-	workingHours := flag.Float64("Working hours pr. day", 7.5, "Configure the daily working hours")
+	workingHours := flag.Float64("hours", 7.5, "Configure the daily working hours")
 
 	flag.Parse()
 
@@ -28,7 +28,7 @@ func run() error {
 			return err
 		}
 
-		fmt.Printf("Total working hours in %d : %f \n", i, hrs)
+		fmt.Printf("Total working hours in %d/%d : %f \n", i, *year, hrs)
 	}
 
 	return nil
